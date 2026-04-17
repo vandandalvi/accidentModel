@@ -3,12 +3,31 @@ import leafmap.foliumap as leafmap
 import pickle
 import pandas as pd
 import subprocess
+import sys
+from pathlib import Path
 
 
 #st.title('Road Accident Analysis') 
-    
-with open(r'../models/random_forest_model.pkl', 'rb') as f:
-    model = pickle.load(f)
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
+MODEL_PATH = ROOT_DIR / 'models' / 'random_forest_model.pkl'
+RETRAIN_SCRIPT = ROOT_DIR / 'models' / 'retrain_compatible_model.py'
+
+
+def _load_or_build_model():
+    if not MODEL_PATH.exists():
+        if RETRAIN_SCRIPT.exists():
+            subprocess.run([sys.executable, str(RETRAIN_SCRIPT)], check=True, cwd=str(ROOT_DIR))
+        else:
+            raise FileNotFoundError(
+                f"Model file not found at {MODEL_PATH} and retrain script is missing at {RETRAIN_SCRIPT}."
+            )
+
+    with MODEL_PATH.open('rb') as f:
+        return pickle.load(f)
+
+
+model = _load_or_build_model()
 
 input_features = ['age_band_of_driver', 'vehicle_type', 'age_of_vehicle', 'weather_conditions', 'day_of_week', 'road_surface_conditions', 'light_conditions', 'sex_of_driver','season','speed_limit']
 

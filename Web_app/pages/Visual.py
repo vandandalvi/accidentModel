@@ -1,14 +1,18 @@
 from PIL import Image
 import streamlit as st
+from pathlib import Path
+
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
 
 
 def app():
     # Define a dictionary of images with headings and content
     image_list = {
-        "image_1": {"heading": "Accident per Month", "content": "Number Of Accident V/S Month.", "path": "../reports/figures/acc_month.png"},
-        "image_2": {"heading": "Accident on different times in day", "content": "Accident Different Time Of Day.", "path": "../reports/figures/acc_russ.png"},
-        "image_3": {"heading": "Realation of features", "content": "This Heat Map Shows The Relation Between Different Features.", "path": "../reports/figures/heat_map.png"},
-        "image_4": {"heading": "Accident in different Seasions", "content": "Numbers Of Accident In Different Seasions.", "path": "../reports/figures/acc_season.png"}
+        "image_1": {"heading": "Accident per Month", "content": "Number Of Accident V/S Month.", "path": str(ROOT_DIR / "reports" / "figures" / "acc_month.png")},
+        "image_2": {"heading": "Accident on different times in day", "content": "Accident Different Time Of Day.", "path": str(ROOT_DIR / "reports" / "figures" / "acc_russ.png")},
+        "image_3": {"heading": "Realation of features", "content": "This Heat Map Shows The Relation Between Different Features.", "path": str(ROOT_DIR / "reports" / "figures" / "heat_map.png")},
+        "image_4": {"heading": "Accident in different Seasions", "content": "Numbers Of Accident In Different Seasions.", "path": str(ROOT_DIR / "reports" / "figures" / "acc_season.png")}
     }
 
     # Define the main headline
